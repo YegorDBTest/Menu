@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12.1
+    environment:
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_USER: root
+      POSTGRES_DB: menu_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "./db/data:/var/lib/postgresql/data/pgdata"
+
+  menu:
+    build:
+      context: ./menu
+    entrypoint: /code/entrypoint.sh
+    volumes:
+      - "./menu/:/code/"
+    depends_on:
+      - db
