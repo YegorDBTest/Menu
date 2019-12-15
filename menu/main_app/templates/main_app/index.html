@@ -1,0 +1,44 @@
+{% extends "main_app/base.html" %}
+
+{% block title %}Меню{% endblock %}
+
+{% block head %}{% endblock %}
+
+{% block tail %}{% endblock %}
+
+{% block content %}
+  {% include "main_app/header.html" with page_kind="index" %}
+
+  <div class="container">
+    {% for category in categories %}
+      <div>
+        <h2>{{ category.name }}</h2>
+        <div class="row" id="category{{ category.id }}-items">
+          <div class="col-md-4">
+            <div>
+              <h4>Блюдо</h4>
+            </div>
+            <div>
+              Фото
+            </div>
+            <div class="row">
+              <span class="col-md-4">Белки</span>
+              <span class="col-md-8">10.43 г.</span>
+              <span class="col-md-4">Жиры</span>
+              <span class="col-md-8">46.83 г.</span>
+              <span class="col-md-4">Углеводы</span>
+              <span class="col-md-8">81.40 г.</span>
+              <span class="col-md-4">Энергетическая ценность</span>
+              <span class="col-md-8">159 кКал.</span>
+              <span class="col-md-4">Стоимость</span>
+              <span class="col-md-8">321.09 р.</span>
+              <span class="col-md-4">Аллергены</span>
+              <span class="col-md-8">Aллерген</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  </div>
+{% endblock %}

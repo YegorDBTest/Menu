@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if page_kind == 'index' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'index' %}">Меню</a>
+      </li>
+      <li class="nav-item {% if page_kind == 'order' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'order' %}">Заказ</a>
+      </li>
+    </ul>
+    <button class="btn btn-outline-success my-2 my-lg-0">Добавить блюдо</button>
+  </div>
+</nav>
