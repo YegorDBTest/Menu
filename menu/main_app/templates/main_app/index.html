@@ -4,7 +4,28 @@
 
 {% block head %}{% endblock %}
 
-{% block tail %}{% endblock %}
+{% block tail %}
+  <script type="text/javascript">
+    $('#dishForm').submit(function(e) {
+      e.preventDefault();
+
+      var data = new FormData(this);
+      $.ajax({
+        url: "{% url 'create-dish' %}",
+        data: data,
+        type: "POST",
+        processData: false,
+        contentType: false,
+      })
+      .done(function(data) {
+        console.log('data', data);
+      })
+      .fail(function() {
+        alert("Ошибка при сохранении данных");
+      })
+    });
+  </script>
+{% endblock %}
 
 {% block content %}
   {% include "main_app/header.html" with page_kind="index" %}

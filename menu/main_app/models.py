@@ -25,15 +25,15 @@ class Category(models.Model):
 
 class Dish(models.Model):
     class Meta:
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
+        verbose_name = 'Блюдо'
+        verbose_name_plural = 'Блюда'
 
     name = models.CharField('Название', max_length=255)
-    squirrels = models.DecimalField('Белки', max_digits=9, decimal_places=2)
-    fats = models.DecimalField('Жиры', max_digits=9, decimal_places=2)
-    carbohydrates = models.DecimalField('Углеводы', max_digits=9, decimal_places=2)
-    energy = models.PositiveIntegerField('Энергетическая ценность')
-    price = models.DecimalField('Цена', max_digits=9, decimal_places=2)
+    squirrels = models.DecimalField('Белки, г.', max_digits=9, decimal_places=2)
+    fats = models.DecimalField('Жиры, г.', max_digits=9, decimal_places=2)
+    carbohydrates = models.DecimalField('Углеводы, г.', max_digits=9, decimal_places=2)
+    energy = models.PositiveIntegerField('Энергетическая ценность, кКал.')
+    price = models.DecimalField('Цена, руб.', max_digits=9, decimal_places=2)
     picture = models.ImageField('Фото', upload_to='dishes/%Y/%m/%d', max_length=255)
     allergens = models.ManyToManyField(Allergen, verbose_name='Аллергены')
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.PROTECT)
