@@ -1,7 +1,5 @@
 from django.urls import include, path
 
-from rest_framework.urlpatterns import format_suffix_patterns
-
 from main_app import api, views
 
 
@@ -12,8 +10,10 @@ view_urlpatterns = [
 
 api_root = 'api/1.0/'
 api_urlpatterns = [
+    # GET
+    path(f'{api_root}get_dishes/', api.get_dishes, name='get-dishes'),
     # POST
     path(f'{api_root}create_dish/', api.create_dish, name='create-dish'),
 ]
 
-urlpatterns = view_urlpatterns + format_suffix_patterns(api_urlpatterns)
+urlpatterns = view_urlpatterns + api_urlpatterns
