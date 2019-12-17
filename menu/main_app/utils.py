@@ -6,6 +6,8 @@ def aggregate_dishes_data(dishes):
         'dishes': [{
                 'category_id': dish.category.id,
                 'id': dish.id,
+                'name': dish.name,
+                'picture_url': dish.picture.url,
                 'squirrels': dish.squirrels,
                 'fats': dish.fats,
                 'carbohydrates': dish.carbohydrates,
@@ -35,6 +37,8 @@ def aggregate_dishes_data_with_total(dishes):
         dish_data = {
             'category_id': dish.category.id,
             'id': dish.id,
+            'name': dish.name,
+            'picture_url': dish.picture.url
         }
 
         for key in ('squirrels', 'fats', 'carbohydrates', 'energy', 'price'):

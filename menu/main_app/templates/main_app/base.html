@@ -19,6 +19,55 @@
   {% block content %}{% endblock %}
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  function getDishes(ids=null, nt=false) {
+    var data = {};
+    if (ids) data['ids'] = ids;
+    if (nt) data['nt'] = 1;
+    $.ajax({
+      url: "{% url 'get-dishes' %}",
+      data: data,
+      type: "GET",
+    })
+    .done(function(data) {
+      for (let dish of data.dishes) {
+        let categoryItemsBox = $(`#category${dish.category_id}-items`);
+        if (categoryItemsBox) {
+          categoryItemsBox.append(`
+            <div class="col-md-4">
+              <div>
+                <h4>${dish.name}</h4>
+              </div>
+              <div>
+                <img src="${dish.picture_url}" height="300" width="300">
+              </div>
+              <div class="row">
+                <span class="col-md-4">Белки</span>
+                <span class="col-md-8">${dish.squirrels} г.</span>
+                <span class="col-md-4">Жиры</span>
+                <span class="col-md-8">${dish.fats} г.</span>
+                <span class="col-md-4">Углеводы</span>
+                <span class="col-md-8">${dish.carbohydrates} г.</span>
+                <span class="col-md-4">Энергетическая ценность</span>
+                <span class="col-md-8">${dish.energy} кКал.</span>
+                <span class="col-md-4">Стоимость</span>
+                <span class="col-md-8">${dish.price} р.</span>
+                <span class="col-md-4">Аллергены</span>
+                <span class="col-md-8">${dish.allergens}</span>
+              </div>
+            </div>
+          `);
+        }
+      }
+      if (data.total) {
+        console.log("data.total", data.total);
+      }
+    })
+    .fail(function() {
+      console.log("Ошибка при получении данных о блюдах");
+    });
+  }
+</script>
 {% block tail %}{% endblock %}
 </html>

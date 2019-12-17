@@ -6,23 +6,27 @@
 
 {% block tail %}
   <script type="text/javascript">
-    $('#dishForm').submit(function(e) {
-      e.preventDefault();
+    $(document).ready(function() {
+      getDishes();
 
-      var data = new FormData(this);
-      $.ajax({
-        url: "{% url 'create-dish' %}",
-        data: data,
-        type: "POST",
-        processData: false,
-        contentType: false,
-      })
-      .done(function(data) {
-        console.log('data', data);
-      })
-      .fail(function() {
-        alert("Ошибка при сохранении данных");
-      })
+      $('#dishForm').submit(function(e) {
+        e.preventDefault();
+
+        var data = new FormData(this);
+        $.ajax({
+          url: "{% url 'create-dish' %}",
+          data: data,
+          type: "POST",
+          processData: false,
+          contentType: false,
+        })
+        .done(function(data) {
+          console.log('data', data);
+        })
+        .fail(function() {
+          alert("Ошибка при сохранении данных");
+        });
+      });
     });
   </script>
 {% endblock %}
@@ -35,28 +39,6 @@
       <div>
         <h2>{{ category.name }}</h2>
         <div class="row" id="category{{ category.id }}-items">
-          <div class="col-md-4">
-            <div>
-              <h4>Блюдо</h4>
-            </div>
-            <div>
-              Фото
-            </div>
-            <div class="row">
-              <span class="col-md-4">Белки</span>
-              <span class="col-md-8">10.43 г.</span>
-              <span class="col-md-4">Жиры</span>
-              <span class="col-md-8">46.83 г.</span>
-              <span class="col-md-4">Углеводы</span>
-              <span class="col-md-8">81.40 г.</span>
-              <span class="col-md-4">Энергетическая ценность</span>
-              <span class="col-md-8">159 кКал.</span>
-              <span class="col-md-4">Стоимость</span>
-              <span class="col-md-8">321.09 р.</span>
-              <span class="col-md-4">Аллергены</span>
-              <span class="col-md-8">Aллерген</span>
-            </div>
-          </div>
         </div>
       </div>
       <hr>

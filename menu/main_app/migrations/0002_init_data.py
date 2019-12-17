@@ -3,7 +3,7 @@ from django.db import migrations
 
 
 allergens_names = [f'Аллерген{i}' for i in range(1, 6)]
-categories_names = [f'Категория{i}' for i in range(1, 11)]
+categories_names = [f'Категория{i}' for i in range(1, 6)]
 
 
 def get_models(apps):
