@@ -6,26 +6,40 @@
 
 {% block tail %}
   <script type="text/javascript">
+    var createDishUrl = "{% url 'create-dish' %}";
     $(document).ready(function() {
-      getDishes();
+      getDishes({
+        ids: null,
+        totalNeeded: false,
+        checkboxNeeded: true
+      });
 
       $('#dishForm').submit(function(e) {
         e.preventDefault();
 
         var data = new FormData(this);
         $.ajax({
-          url: "{% url 'create-dish' %}",
+          url: createDishUrl,
           data: data,
           type: "POST",
           processData: false,
           contentType: false,
         })
-        .done(function(data) {
-          console.log('data', data);
+        .done(function(dish) {
+          drawDish(dish, true, 'prepend');
+          $('#dishFormModal').modal('hide');
         })
         .fail(function() {
           alert("Ошибка при сохранении данных");
         });
+      });
+
+      $('body').delegate('.dish-checkbox', 'change', function(e) {
+        let dishesIds = [];
+        for (let checkbox of $('.dish-checkbox:checked')) {
+          dishesIds.push($(checkbox).attr('dish-id'));
+        }
+        document.cookie = `order-dishes=${dishesIds.join()}`;
       });
     });
   </script>

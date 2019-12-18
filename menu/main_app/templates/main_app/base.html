@@ -21,47 +21,84 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  function getDishes(ids=null, nt=false) {
+  var getDishesUrl = "{% url 'get-dishes' %}";
+
+
+  function getOrderDishesIds() {
+    let value = document.cookie.split('order-dishes=')[1].split(';')[0];
+    if (value.length == 0) return [];
+    return value.split(',');
+  }
+
+
+  var orderDishesIds = getOrderDishesIds();
+
+
+  function drawDish(dish, checkboxNeeded, addKind='append') {
+    let categoryItemsBox = $(`#category${dish.category}-items`);
+    if (categoryItemsBox) {
+      let checkbox = '';
+      if (checkboxNeeded) {
+        let checked = orderDishesIds.includes(dish.id.toString()) ? 'checked' : '';
+        checkbox = `<input type="checkbox" class="dish-checkbox" dish-id="${dish.id}" ${checked}>`;
+      }
+      categoryItemsBox[addKind](`
+        <div class="col-md-4">
+          ${checkbox}
+          <div>
+            <h4>${dish.name}</h4>
+          </div>
+          <div>
+            <img src="${dish.picture}" height="300" width="300">
+          </div>
+          <div class="row">
+            <span class="col-md-4">Белки</span>
+            <span class="col-md-8">${dish.squirrels} г.</span>
+            <span class="col-md-4">Жиры</span>
+            <span class="col-md-8">${dish.fats} г.</span>
+            <span class="col-md-4">Углеводы</span>
+            <span class="col-md-8">${dish.carbohydrates} г.</span>
+            <span class="col-md-4">Энергетическая ценность</span>
+            <span class="col-md-8">${dish.energy} кКал.</span>
+            <span class="col-md-4">Стоимость</span>
+            <span class="col-md-8">${dish.price} р.</span>
+            <span class="col-md-4">Аллергены</span>
+            <span class="col-md-8">${dish.allergens}</span>
+          </div>
+        </div>
+      `);
+    }
+  }
+
+
+  function drawTotal(totalData) {
+    console.log("totalData", totalData);
+  }
+
+
+  function getDishes(params) {
+    /*
+    params = {
+      ids [строка] (id блюд через запятую),
+      totalNeeded [логический] (необходимость передачи сводных значений по блюдам),
+      checkboxNeeded [логический] (необходимость отрисовки чекбоксов у блюд)
+    }
+    */
+
     var data = {};
-    if (ids) data['ids'] = ids;
-    if (nt) data['nt'] = 1;
+    if (params.ids) data['ids'] = ids;
+    if (params.totalNeeded) data['tn'] = 1;
     $.ajax({
-      url: "{% url 'get-dishes' %}",
+      url: getDishesUrl,
       data: data,
       type: "GET",
     })
     .done(function(data) {
       for (let dish of data.dishes) {
-        let categoryItemsBox = $(`#category${dish.category_id}-items`);
-        if (categoryItemsBox) {
-          categoryItemsBox.append(`
-            <div class="col-md-4">
-              <div>
-                <h4>${dish.name}</h4>
-              </div>
-              <div>
-                <img src="${dish.picture_url}" height="300" width="300">
-              </div>
-              <div class="row">
-                <span class="col-md-4">Белки</span>
-                <span class="col-md-8">${dish.squirrels} г.</span>
-                <span class="col-md-4">Жиры</span>
-                <span class="col-md-8">${dish.fats} г.</span>
-                <span class="col-md-4">Углеводы</span>
-                <span class="col-md-8">${dish.carbohydrates} г.</span>
-                <span class="col-md-4">Энергетическая ценность</span>
-                <span class="col-md-8">${dish.energy} кКал.</span>
-                <span class="col-md-4">Стоимость</span>
-                <span class="col-md-8">${dish.price} р.</span>
-                <span class="col-md-4">Аллергены</span>
-                <span class="col-md-8">${dish.allergens}</span>
-              </div>
-            </div>
-          `);
-        }
+        drawDish(dish, params.checkboxNeeded);
       }
       if (data.total) {
-        console.log("data.total", data.total);
+        drawTotal(data.total);
       }
     })
     .fail(function() {

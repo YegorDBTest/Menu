@@ -4,10 +4,10 @@ from decimal import Decimal
 def aggregate_dishes_data(dishes):
     return {
         'dishes': [{
-                'category_id': dish.category.id,
+                'category': dish.category.id,
                 'id': dish.id,
                 'name': dish.name,
-                'picture_url': dish.picture.url,
+                'picture': dish.picture.url,
                 'squirrels': dish.squirrels,
                 'fats': dish.fats,
                 'carbohydrates': dish.carbohydrates,
@@ -35,10 +35,10 @@ def aggregate_dishes_data_with_total(dishes):
 
     for dish in dishes:
         dish_data = {
-            'category_id': dish.category.id,
+            'category': dish.category.id,
             'id': dish.id,
             'name': dish.name,
-            'picture_url': dish.picture.url
+            'picture': dish.picture.url
         }
 
         for key in ('squirrels', 'fats', 'carbohydrates', 'energy', 'price'):

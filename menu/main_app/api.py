@@ -13,16 +13,16 @@ def get_dishes(request):
     '''
     Получение информации о блюдах.
     Get параметры:
-    - ids (id блюд разделенные запятыми);
-    - nt (необходимость передачи сводных значений по блюдам).
+    - ids (id блюд через запятую);
+    - tn (необходимость передачи сводных значений по блюдам).
     Если id блюд не переданы - отдается информация о всех блюдах.
-    Если nt равен 1 - помимо данных о блюдах отдается информация
+    Если tn равен 1 - помимо данных о блюдах отдается информация
     о суммах белков, жиров, углеводов, енергии и цен всех блюд,
     а также о всех аллергенах содержащихся в блюдах.
     '''
 
     dishes_ids = request.query_params.get('ids', None)
-    need_total = request.query_params.get('nt', None) == '1'
+    total_needed = request.query_params.get('tn', None) == '1'
 
     additional_filter = {}
     if dishes_ids:
@@ -37,7 +37,7 @@ def get_dishes(request):
 
     data = (
         aggregate_dishes_data_with_total(dishes)
-        if need_total else
+        if total_needed else
         aggregate_dishes_data(dishes)
     )
 
