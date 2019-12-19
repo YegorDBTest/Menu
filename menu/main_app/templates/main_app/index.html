@@ -8,11 +8,7 @@
   <script type="text/javascript">
     var createDishUrl = "{% url 'create-dish' %}";
     $(document).ready(function() {
-      getDishes({
-        ids: null,
-        totalNeeded: false,
-        checkboxNeeded: true
-      });
+      getDishes(true);
 
       $('#dishForm').submit(function(e) {
         e.preventDefault();
@@ -52,10 +48,13 @@
     {% for category in categories %}
       <div>
         <h2>{{ category.name }}</h2>
-        <div class="row" id="category{{ category.id }}-items">
+        <div class="row" id="category{{ category.id }}">
         </div>
       </div>
       <hr>
     {% endfor %}
+    <a href="{% url 'order' %}">
+      <button class="btn btn-success">Отправить</button>
+    </a>
   </div>
 {% endblock %}

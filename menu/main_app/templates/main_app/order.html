@@ -4,11 +4,32 @@
 
 {% block head %}{% endblock %}
 
-{% block tail %}{% endblock %}
+{% block tail %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      if (orderDishesIds.length > 0) {
+        getDishes();
+      }
+    });
+  </script>
+{% endblock %}
 
 {% block content %}
   {% include "main_app/header.html" with page_kind="order" %}
   <div class="container">
-    order page
+    <div>
+      <h2>Блюда</h2>
+      <div class="row" id="dishesBox"></div>
+      <hr>
+    </div>
+    <div>
+      <h2>Аллергены</h2>
+      <span id="allergensBox"></span>
+      <hr>
+    </div>
+    <div>
+      <h2>Цена</h2>
+      <span id="priceBox"></span> </span>руб.</span>
+    </div>
   </div>
 {% endblock %}
