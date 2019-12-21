@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from main_app.models import Allergen, Category
+from main_app.models import Category
 from main_app.serializers import DishSerializer
 
 

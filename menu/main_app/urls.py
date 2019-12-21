@@ -10,9 +10,7 @@ view_urlpatterns = [
 
 api_root = 'api/1.0/'
 api_urlpatterns = [
-    # GET
     path(f'{api_root}get_dishes/', api.get_dishes, name='get-dishes'),
-    # POST
     path(f'{api_root}create_dish/', api.create_dish, name='create-dish'),
 ]
 

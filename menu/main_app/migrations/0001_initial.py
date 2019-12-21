@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name='Allergen',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
+                ('name', models.CharField(max_length=255, verbose_name='Название', unique=True)),
             ],
             options={'verbose_name': 'Аллерген', 'verbose_name_plural': 'Аллергены'},
         ),
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='Category',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
+                ('name', models.CharField(max_length=255, verbose_name='Название', unique=True)),
             ],
             options={'verbose_name': 'Категория', 'verbose_name_plural': 'Категории'},
         ),
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             name='Dish',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Название')),
+                ('name', models.CharField(max_length=255, verbose_name='Название', unique=True)),
                 ('squirrels', models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Белки, г.')),
                 ('fats', models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Жиры, г.')),
                 ('carbohydrates', models.DecimalField(decimal_places=2, max_digits=9, verbose_name='Углеводы, г.')),

@@ -6,7 +6,7 @@ class Allergen(models.Model):
         verbose_name = 'Аллерген'
         verbose_name_plural = 'Аллергены'
 
-    name = models.CharField('Название', max_length=255)
+    name = models.CharField('Название', max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -17,7 +17,7 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
-    name = models.CharField('Название', max_length=255)
+    name = models.CharField('Название', max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class Dish(models.Model):
         verbose_name = 'Блюдо'
         verbose_name_plural = 'Блюда'
 
-    name = models.CharField('Название', max_length=255)
+    name = models.CharField('Название', max_length=255, unique=True)
     squirrels = models.DecimalField('Белки, г.', max_digits=9, decimal_places=2)
     fats = models.DecimalField('Жиры, г.', max_digits=9, decimal_places=2)
     carbohydrates = models.DecimalField('Углеводы, г.', max_digits=9, decimal_places=2)

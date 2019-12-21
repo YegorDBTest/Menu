@@ -24,3 +24,8 @@ class DishSerializer(serializers.ModelSerializer):
             'allergens',
             'category'
         )
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['id'] = instance.id
+        return ret

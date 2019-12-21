@@ -1,17 +1,10 @@
 {% extends "main_app/base.html" %}
+{% load static %}
 
 {% block title %}Заказ{% endblock %}
 
-{% block head %}{% endblock %}
-
 {% block tail %}
-  <script type="text/javascript">
-    $(document).ready(function() {
-      if (orderDishesIds.length > 0) {
-        getDishes();
-      }
-    });
-  </script>
+  <script src="{% static 'main_app/js/order.js' %}"></script>
 {% endblock %}
 
 {% block content %}

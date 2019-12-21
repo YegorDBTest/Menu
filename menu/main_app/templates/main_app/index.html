@@ -1,44 +1,13 @@
 {% extends "main_app/base.html" %}
+{% load static %}
 
 {% block title %}Меню{% endblock %}
-
-{% block head %}{% endblock %}
 
 {% block tail %}
   <script type="text/javascript">
     var createDishUrl = "{% url 'create-dish' %}";
-    $(document).ready(function() {
-      getDishes(true);
-
-      $('#dishForm').submit(function(e) {
-        e.preventDefault();
-
-        var data = new FormData(this);
-        $.ajax({
-          url: createDishUrl,
-          data: data,
-          type: "POST",
-          processData: false,
-          contentType: false,
-        })
-        .done(function(dish) {
-          drawDish(dish, true, 'prepend');
-          $('#dishFormModal').modal('hide');
-        })
-        .fail(function() {
-          alert("Ошибка при сохранении данных");
-        });
-      });
-
-      $('body').delegate('.dish-checkbox', 'change', function(e) {
-        let dishesIds = [];
-        for (let checkbox of $('.dish-checkbox:checked')) {
-          dishesIds.push($(checkbox).attr('dish-id'));
-        }
-        document.cookie = `order-dishes=${dishesIds.join()}`;
-      });
-    });
   </script>
+  <script src="{% static 'main_app/js/index.js' %}"></script>
 {% endblock %}
 
 {% block content %}
