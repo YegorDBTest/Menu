@@ -4,14 +4,14 @@ from main_app import api, views
 
 
 view_urlpatterns = [
-    path('', views.index, name='index'),
-    path('order/', views.order, name='order'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('order/', views.OrderView.as_view(), name='order'),
 ]
 
 api_root = 'api/1.0/'
 api_urlpatterns = [
-    path(f'{api_root}get_dishes/', api.get_dishes, name='get-dishes'),
-    path(f'{api_root}create_dish/', api.create_dish, name='create-dish'),
+    path(f'{api_root}get_dishes/', api.GetDishes.as_view(), name='get-dishes'),
+    path(f'{api_root}create_dish/', api.CreateDish.as_view(), name='create-dish'),
 ]
 
 urlpatterns = view_urlpatterns + api_urlpatterns

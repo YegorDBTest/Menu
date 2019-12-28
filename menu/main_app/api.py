@@ -1,15 +1,15 @@
-from rest_framework import status
-from rest_framework.decorators import api_view, parser_classes
+from django_filters.rest_framework import DjangoFilterBackend
+
+from rest_framework import generics
 from rest_framework.parsers import MultiPartParser
-from rest_framework.response import Response
 
 from main_app.models import Dish
+from main_app.filters import DishFilterSet
 from main_app.serializers import DishSerializer
 from main_app.utils import aggregate_dishes_data, aggregate_dishes_data_with_total
 
 
-@api_view(['GET'])
-def get_dishes(request):
+class GetDishes(generics.ListAPIView):
     '''
     Получение информации о блюдах.
     Get параметры:
@@ -20,40 +20,32 @@ def get_dishes(request):
     о сумме цен всех блюд, а также о всех аллергенах, содержащихся в блюдах.
     '''
 
-    dishes_ids = request.query_params.get('ids', None)
-    total_needed = request.query_params.get('tn', None) == '1'
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = DishFilterSet
+    http_method_names = ['get']
 
-    additional_filter = {}
-    if dishes_ids:
-        additional_filter['id__in'] = dishes_ids.split(',')
+    def _response_data_aggregate(self, request, response):
+        total_needed = request.query_params.get('tn', None) == '1'
+        response.data = (
+            aggregate_dishes_data_with_total(response.data)
+            if total_needed else
+            aggregate_dishes_data(response.data)
+        )
+        return response
 
-    dishes = (
-        Dish.objects
-        .filter(**additional_filter)
-        .select_related('category')
-        .prefetch_related('allergens')
-    )
-
-    data = (
-        aggregate_dishes_data_with_total(dishes)
-        if total_needed else
-        aggregate_dishes_data(dishes)
-    )
-
-    return Response(data, status=status.HTTP_200_OK)
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        return self._response_data_aggregate(request, response)
 
 
-@api_view(['POST'])
-@parser_classes([MultiPartParser])
-def create_dish(request):
+class CreateDish(generics.CreateAPIView):
     '''
     Создание блюда.
     Данные: форма, основанная на модели блюда.
     '''
 
-    serializer = DishSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
-
-    serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    serializer_class = DishSerializer
+    parser_classes = [MultiPartParser]
+    http_method_names = ['post']

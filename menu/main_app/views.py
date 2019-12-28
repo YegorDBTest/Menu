@@ -1,25 +1,32 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 from main_app.models import Category
 from main_app.serializers import DishSerializer
 
 
-def index(request):
+class IndexView(TemplateView):
     '''
     Страница с меню.
     Даные о блюдах запрашиваются через API.
     '''
 
-    return render(request, 'main_app/index.html', {
-        'categories': Category.objects.all(),
-        'serializer': DishSerializer(),
-    })
+    template_name = 'main_app/index.html'
+    http_method_names = ['get']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'categories': Category.objects.all(),
+            'serializer': DishSerializer(),
+        })
+        return context
 
 
-def order(request):
+class OrderView(TemplateView):
     '''
     Страница с заказом.
     Даные о блюдах запрашиваются через API.
     '''
 
-    return render(request, 'main_app/order.html')
+    template_name = 'main_app/order.html'
+    http_method_names = ['get']
